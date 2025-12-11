@@ -15,8 +15,7 @@ import {
   FileText,
   Users,
   Star,
-  Download,
-  PlayCircle
+  Download
 } from 'lucide-react';
 
 import { Section, Reveal } from './components/Section';
@@ -34,7 +33,7 @@ const reviews = [
 const faqs = [
   { 
     q: "Preciso baixar algum arquivo pesado?", 
-    a: "Não. O Caso Thorne roda 100% no seu navegador. Você recebe acesso imediato a um portal seguro contendo todas as evidências digitais, áudios e relatórios." 
+    a: "Não. O Caso Thorne roda 100% no seu navegador. Você recebe acesso imediato a um portal seguro contendo todas as evidências digitais e relatórios." 
   },
   { 
     q: "É muito difícil? Nunca joguei nada do tipo.", 
@@ -99,15 +98,17 @@ interface BentoCardProps {
 
 const BentoCard: React.FC<BentoCardProps> = ({ title, icon: Icon, children, className = "", delay = 0 }) => (
     <Reveal delay={delay} width="100%">
-        <div className={`bg-noir-900 border border-white/10 hover:border-blood-600/30 transition-colors duration-500 p-6 h-full flex flex-col relative overflow-hidden group ${className}`}>
+        <div className={`bg-noir-900 border border-white/10 hover:border-blood-600/30 transition-colors duration-500 p-6 h-full flex flex-col justify-end relative overflow-hidden group ${className}`}>
             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                 <Icon size={48} />
             </div>
-            <h3 className="font-serif text-xl text-white mb-2 relative z-10 flex items-center gap-2">
-                <Icon size={18} className="text-blood-500" /> {title}
-            </h3>
-            <div className="relative z-10 text-neutral-400 font-mono text-sm leading-relaxed">
-                {children}
+            <div className="relative z-10">
+                <h3 className="font-serif text-xl text-white mb-2 flex items-center gap-2">
+                    <Icon size={18} className="text-blood-500" /> {title}
+                </h3>
+                <div className="text-neutral-400 font-mono text-sm leading-relaxed">
+                    {children}
+                </div>
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-noir-950 via-transparent to-transparent opacity-50"></div>
         </div>
@@ -238,7 +239,7 @@ const App = () => {
       </section>
 
       {/* --- MARQUEE --- */}
-      <Marquee items={["Toxicologia Forense", "Interrogatórios Reais", "Análise de DNA", "Cena do Crime 3D", "Dossiê Completo", "Sem Instalação"]} />
+      <Marquee items={["Toxicologia Forense", "Análise de DNA", "Cena do Crime 3D", "Dossiê Completo", "Sem Instalação"]} />
 
       {/* --- BENTO GRID FEATURES --- */}
       <Section id="investigation">
@@ -247,28 +248,25 @@ const App = () => {
             <h2 className="font-serif text-3xl md:text-5xl text-white mb-4">Isso não é um jogo. <br/> <span className="text-blood-600">É uma Simulação.</span></h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-2 gap-4 h-auto md:h-[600px]">
-            {/* Main Feature - Large */}
-            <div className="md:col-span-2 md:row-span-2 bg-noir-900 border border-white/10 relative group overflow-hidden">
-                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=2680&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:scale-105 transition-transform duration-700"></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-noir-950 via-noir-950/50 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 p-8 w-full z-10">
-                    <Microscope className="text-blood-500 mb-4" size={32} />
-                    <h3 className="font-serif text-3xl text-white mb-2">Toxicologia Real</h3>
-                    <p className="font-mono text-neutral-400 text-sm max-w-md">
-                        Analise níveis de Digoxina, Potássio e Creatinina. Você terá acesso aos laudos originais do laboratório. Não há setas brilhantes indicando onde clicar. Você precisa interpretar os dados químicos.
-                    </p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-auto">
+            {/* Feature 1 - Toxicology (Fixed Layout) */}
+            <Reveal width="100%">
+                <div className="h-full min-h-[400px] bg-noir-900 border border-white/10 relative group overflow-hidden flex flex-col justify-end">
+                    <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1576086213369-97a306d36557?q=80&w=2680&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:scale-105 transition-transform duration-700"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-noir-950 via-noir-950/60 to-transparent"></div>
+                    <div className="p-8 relative z-10">
+                        <Microscope className="text-blood-500 mb-4" size={32} />
+                        <h3 className="font-serif text-3xl text-white mb-2">Toxicologia Real</h3>
+                        <p className="font-mono text-neutral-400 text-sm max-w-md leading-relaxed">
+                            Analise níveis de Digoxina, Potássio e Creatinina. Você terá acesso aos laudos originais do laboratório. Não há setas brilhantes indicando onde clicar. Você precisa interpretar os dados químicos.
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </Reveal>
 
-            {/* Feature 2 */}
-            <BentoCard title="Áudio Binaural" icon={PlayCircle} delay={0.1}>
-                Ouça interrogatórios policiais e ligações de emergência (911). Detecte mentiras através de hesitações na voz e inconsistências nos relatos.
-            </BentoCard>
-
-            {/* Feature 3 */}
-            <BentoCard title="Dossiê Digital" icon={FileSearch} delay={0.2}>
-                Acesse o banco de dados da polícia de qualquer dispositivo. Celular, Tablet ou PC. Sem downloads, sem loading.
+            {/* Feature 2 - Dossier */}
+            <BentoCard title="Dossiê Digital" icon={FileSearch} delay={0.2} className="min-h-[400px]">
+                Acesse o banco de dados da polícia de qualquer dispositivo. Celular, Tablet ou PC. Sem downloads, sem loading. Tudo o que você precisa está na nuvem, acessível instantaneamente após a confirmação.
             </BentoCard>
         </div>
       </Section>
@@ -293,7 +291,6 @@ const App = () => {
                             {[
                                 { name: "Jogo Caso Thorne (Acesso Vitalício)", price: "R$ 67,00" },
                                 { name: "28 Documentos e Evidências", price: "R$ 29,00" },
-                                { name: "Áudios e Interrogatórios Reais", price: "R$ 19,00" },
                                 { name: "Acesso ao Grupo de Detetives", price: "Inestimável" },
                             ].map((item, i) => (
                                 <li key={i} className="flex justify-between items-center border-b border-white/5 pb-2">
@@ -304,18 +301,11 @@ const App = () => {
                                     <span className="text-neutral-500 line-through text-xs">{item.price}</span>
                                 </li>
                             ))}
-                            <li className="flex justify-between items-center pt-2 text-evidence-400">
-                                <div className="flex items-center gap-3">
-                                    <Star className="shrink-0 fill-current" size={16} />
-                                    <span>BÔNUS: Guia de Medicina Legal (PDF)</span>
-                                </div>
-                                <span className="text-xs font-bold">GRÁTIS</span>
-                            </li>
                         </ul>
                         
                         <div className="mt-8 flex justify-between items-center text-sm font-mono text-neutral-500">
                             <span>Valor Total Real:</span>
-                            <span className="line-through">R$ 115,00+</span>
+                            <span className="line-through">R$ 96,00+</span>
                         </div>
                     </div>
 
